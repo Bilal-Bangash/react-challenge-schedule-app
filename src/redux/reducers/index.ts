@@ -1,0 +1,1 @@
+export { appointmentListReducer } from "./appointmentsReducer";
