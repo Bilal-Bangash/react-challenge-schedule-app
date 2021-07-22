@@ -3,8 +3,11 @@ import thunk from "redux-thunk";
 //redux devtools extension for redux debugging
 import { composeWithDevTools } from "redux-devtools-extension";
 // importing different reducers from reducers folder
+import { appointmentListReducer } from "./reducers";
 
-const rootReducer = combineReducers({});
+const rootReducer = combineReducers({
+  appointmentList: appointmentListReducer,
+});
 
 // storing cart item from localStorage in initial state
 const initialState = {};
@@ -19,3 +22,4 @@ const store = createStore(
   composeWithDevTools(applyMiddleware(...middleware))
 );
 export default store;
+export type RootState = ReturnType<typeof rootReducer>;

@@ -1,15 +1,17 @@
+import React, { useEffect } from "react";
 import "./App.css";
 import { NavBar, Sidebar, Card } from "./components";
-import { API_ROOT, GET, GET_ALL_APPOINTMENTS } from "./constants";
-import { useQuery } from "./hooks";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllAppointments } from "./redux/actions";
 
 function App() {
-  const { error, data } = useQuery({
-    endpoint: `${API_ROOT}${GET_ALL_APPOINTMENTS}`,
-    method: GET,
-  });
-  // for testing purpose will remove later
-  console.log("%cData", "color:green;font-size:30px;", data, error);
+  const dispatch = useDispatch();
+  const appointmentList = useSelector((state) => state.appointmentList);
+  const { data: { appointments = [] } = {} } = appointmentList;
+  useEffect(() => {
+    // dispatching action for getting lists of all products
+    dispatch(getAllAppointments());
+  }, [dispatch]);
   return (
     <>
       <header>
@@ -18,7 +20,10 @@ function App() {
       <div className="container">
         <Sidebar />
         <main>
-          <Card />
+          {appointments &&
+            appointments.map((appointment) => (
+              <Card appointment={appointment} />
+            ))}
         </main>
       </div>
     </>

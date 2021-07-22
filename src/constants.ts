@@ -7,4 +7,4 @@ export const DELETE = "DELETE";
 
 //Endpoints
 
-export const GET_ALL_APPOINTMENTS = "/appointments";
+export const ENDPOINT_GET_ALL_APPOINTMNETS = "/appointments";

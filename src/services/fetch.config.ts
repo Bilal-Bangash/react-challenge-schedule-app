@@ -1,3 +1,5 @@
+import { API_ROOT } from "../constants";
+
 const FETCH_API_CALL = async (request: any) => {
   // create options object with method and body from request
   let options = {
@@ -10,7 +12,7 @@ const FETCH_API_CALL = async (request: any) => {
 
   // calling API in try catch for handling exceptions
   try {
-    const response = await fetch(request.endpoint, options);
+    const response = await fetch(`${API_ROOT}${request.endpoint}`, options);
     const res = await response.json();
     // returning res
     return res;
