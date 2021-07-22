@@ -1,5 +1,5 @@
 import "./App.css";
-import { NavBar, Sidebar } from "./components";
+import { NavBar, Sidebar, Card } from "./components";
 import { API_ROOT, GET, GET_ALL_APPOINTMENTS } from "./constants";
 import { useQuery } from "./hooks";
 
@@ -18,7 +18,7 @@ function App() {
       <div className="container">
         <Sidebar />
         <main>
-          <h2>Replace me with your own code!</h2>
+          <Card />
         </main>
       </div>
     </>
