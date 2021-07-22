@@ -3,11 +3,11 @@ import {
   GET_ALL_APPOINTMENTS_SUCCESS,
   GET_ALL_APPOINTMENTS_FAILURE,
 } from "../constants";
-const initialState = {
-  data: { appointments: [] },
+const INITIAL_STATE = {
+  data: { appointments: [], patients: [], doctors: [] },
 };
 
-export const appointmentListReducer = (state = initialState, action: any) => {
+export const appointmentListReducer = (state = INITIAL_STATE, action: any) => {
   switch (action.type) {
     case GET_ALL_APPOINTMENTS_REQUEST:
       return {

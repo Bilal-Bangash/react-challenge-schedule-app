@@ -20,7 +20,7 @@ const useQuery = (
 
   useEffect(() => {
     onRequest();
-  }, []);
+  });
 
   const onRequest = async () => {
     setLoading(true);
