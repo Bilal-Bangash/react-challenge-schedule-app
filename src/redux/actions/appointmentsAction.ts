@@ -5,9 +5,13 @@ import {
   DELETE_APPOINTMENT_REQUEST,
   DELETE_APPOINTMENT_SUCCESS,
   DELETE_APPOINTMENT_FAILURE,
+  CONFIRM_APPOINTMENT_REQUEST,
+  CONFIRM_APPOINTMENT_SUCCESS,
+  CONFIRM_APPOINTMENT_FAILURE,
 } from "../constants";
 import {
   GET,
+  POST,
   DELETE,
   ENDPOINT_GET_ALL_DOCTORS,
   ENDPOINT_GET_ALL_PATIENTS,
@@ -87,6 +91,34 @@ export const deleteAppointment =
     } catch (error) {
       dispatch({
         type: DELETE_APPOINTMENT_FAILURE,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      });
+    }
+  };
+
+export const confirmAppointment =
+  (appointmentID: any, doctorID: any) => async (dispatch: any) => {
+    try {
+      dispatch({ type: CONFIRM_APPOINTMENT_REQUEST });
+      //api call
+      const { appointment } = await FETCH_API_CALL({
+        endpoint: `${ENDPOINT_DELETE_APPOINTMENT}/${appointmentID}/confirm`,
+        method: POST,
+        body: {
+          doctorID,
+        },
+      });
+
+      dispatch({
+        type: CONFIRM_APPOINTMENT_SUCCESS,
+        payload: appointment,
+      });
+    } catch (error) {
+      dispatch({
+        type: CONFIRM_APPOINTMENT_FAILURE,
         payload:
           error.response && error.response.data.message
             ? error.response.data.message

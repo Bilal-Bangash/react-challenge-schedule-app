@@ -5,6 +5,9 @@ import {
   DELETE_APPOINTMENT_REQUEST,
   DELETE_APPOINTMENT_SUCCESS,
   DELETE_APPOINTMENT_FAILURE,
+  CONFIRM_APPOINTMENT_REQUEST,
+  CONFIRM_APPOINTMENT_SUCCESS,
+  CONFIRM_APPOINTMENT_FAILURE,
 } from "../constants";
 const INITIAL_STATE = {
   data: { appointments: [], patients: [], doctors: [] },
@@ -50,6 +53,29 @@ export const deleteAppointmentReducer = (
         loading: false,
       };
     case DELETE_APPOINTMENT_FAILURE:
+      return {
+        loading: false,
+        error: action.payload,
+      };
+    default:
+      return state;
+  }
+};
+
+export const confirmAppointmentReducer = (
+  state = INITIAL_STATE,
+  action: any
+) => {
+  switch (action.type) {
+    case CONFIRM_APPOINTMENT_REQUEST:
+      return {
+        loading: true,
+      };
+    case CONFIRM_APPOINTMENT_SUCCESS:
+      return {
+        loading: false,
+      };
+    case CONFIRM_APPOINTMENT_FAILURE:
       return {
         loading: false,
         error: action.payload,

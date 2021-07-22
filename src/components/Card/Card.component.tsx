@@ -1,7 +1,11 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import { useDispatch } from "react-redux";
-import { deleteAppointment, getAllAppointments } from "../../redux/actions";
 import "./Card.css";
+import {
+  getAllAppointments,
+  confirmAppointment,
+  deleteAppointment,
+} from "../../redux/actions";
 export interface CardProps {
   appointment: any;
   appointments: any;
@@ -13,6 +17,8 @@ const Card: React.FunctionComponent<CardProps> = ({
   appointments,
   doctors,
 }) => {
+  const [doctorID, setDoctorID] = useState("");
+
   const dispatch = useDispatch();
   const handleCancelClick = (appointmentID: any) => {
     const reason = prompt("Please Enter Reason");
@@ -20,11 +26,17 @@ const Card: React.FunctionComponent<CardProps> = ({
     dispatch(deleteAppointment(appointmentID, reason));
     dispatch(getAllAppointments());
   };
+  const handleConfirmClick = (appointmentID: any) => {
+    if (!doctorID) return alert("Select Doctor First");
 
+    dispatch(confirmAppointment(appointmentID, doctorID));
+    dispatch(getAllAppointments());
+    setDoctorID("");
+  };
   return (
     <Fragment>
       <div>
-        <h3>{appointment.toUpperCase()}</h3>
+        <h3>{appointment}</h3>
         {appointments[appointment].map((item: any, index: any) => (
           <div
             key={index}
@@ -66,7 +78,7 @@ const Card: React.FunctionComponent<CardProps> = ({
                   {item.status === "new" && (
                     <button
                       style={{ marginLeft: "5px" }}
-                      onClick={() => handleCancelClick(item.id)}
+                      onClick={() => handleConfirmClick(item.id)}
                     >
                       Confirm
                     </button>
@@ -87,7 +99,25 @@ const Card: React.FunctionComponent<CardProps> = ({
             </div>
             <div className="child-width">
               <b>Doctor: </b>
-              {item.doctor ? item.doctor.name : "Unassigned"}
+              {item.status === "new" ? (
+                <select
+                  name="select"
+                  onChange={(event) => setDoctorID(event.target.value)}
+                >
+                  <option selected disabled>
+                    Unassigned
+                  </option>
+                  {doctors.map((doctor: any, index: any) => {
+                    return (
+                      <option key={index} value={doctor.id}>
+                        {doctor.name}
+                      </option>
+                    );
+                  })}
+                </select>
+              ) : (
+                item.doctor && item.doctor.name
+              )}
             </div>
           </div>
         ))}

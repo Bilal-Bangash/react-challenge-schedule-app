@@ -1,1 +1,5 @@
-export { getAllAppointments, deleteAppointment } from "./appointmentsAction";
+export {
+  getAllAppointments,
+  deleteAppointment,
+  confirmAppointment,
+} from "./appointmentsAction";
