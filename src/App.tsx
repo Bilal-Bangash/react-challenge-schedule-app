@@ -1,22 +1,16 @@
-import { useEffect } from "react";
 import "./App.css";
 import NavBar from "./components/NavBar";
 import Sidebar from "./components/Sidebar";
 import { API_ROOT, GET, GET_ALL_APPOINTMENTS } from "./constants";
-import { FETCH_API_CALL } from "./services";
+import { useQuery } from "./hooks";
 
 function App() {
-  useEffect(() => {
-    const getData = async () => {
-      const data = await FETCH_API_CALL({
-        endpoint: `${API_ROOT}${GET_ALL_APPOINTMENTS}`,
-        method: GET,
-      });
-      // for testing purpose will remove later
-      console.log("Data", data);
-    };
-    getData();
+  const { error, data } = useQuery({
+    endpoint: `${API_ROOT}${GET_ALL_APPOINTMENTS}`,
+    method: GET,
   });
+  // for testing purpose will remove later
+  console.log("%cData", "color:green;font-size:30px;", data, error);
   return (
     <>
       <header>
