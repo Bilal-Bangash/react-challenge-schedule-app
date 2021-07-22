@@ -32,3 +32,15 @@ export const makeAppointmentGroups = (updateAppointments: any) => {
     }, {})
   );
 };
+
+export const sortAppointments = (
+  appointmentGroupsSort: any,
+  appointmentGroups: any
+) => {
+  Object.keys(appointmentGroups)
+    .sort()
+    .reverse()
+    .forEach((key) => {
+      appointmentGroupsSort[key] = appointmentGroups[key];
+    });
+};

@@ -1,4 +1,6 @@
 import React, { Fragment } from "react";
+import { useDispatch } from "react-redux";
+import { deleteAppointment, getAllAppointments } from "../../redux/actions";
 import "./Card.css";
 export interface CardProps {
   appointment: any;
@@ -11,8 +13,12 @@ const Card: React.FunctionComponent<CardProps> = ({
   appointments,
   doctors,
 }) => {
+  const dispatch = useDispatch();
   const handleCancelClick = (appointmentID: any) => {
-    //work in future
+    const reason = prompt("Please Enter Reason");
+    if (!reason) return alert("Enter Reason First!!");
+    dispatch(deleteAppointment(appointmentID, reason));
+    dispatch(getAllAppointments());
   };
 
   return (

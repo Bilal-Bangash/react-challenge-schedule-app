@@ -1,1 +1,1 @@
-export { getAllAppointments } from "./appointmentsAction";
+export { getAllAppointments, deleteAppointment } from "./appointmentsAction";
