@@ -1,6 +1,5 @@
 import "./App.css";
-import NavBar from "./components/NavBar";
-import Sidebar from "./components/Sidebar";
+import { NavBar, Sidebar } from "./components";
 import { API_ROOT, GET, GET_ALL_APPOINTMENTS } from "./constants";
 import { useQuery } from "./hooks";
 
