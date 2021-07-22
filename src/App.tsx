@@ -1,13 +1,15 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import "./App.css";
-import { NavBar, Sidebar, Card } from "./components";
+import { NavBar, Sidebar, Loader } from "./components";
+import { Appointments } from "./screens";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllAppointments } from "./redux/actions";
 
 function App() {
   const dispatch = useDispatch();
   const appointmentList = useSelector((state) => state.appointmentList);
-  const { data: { appointments = [], doctors = [] } = {} } = appointmentList;
+  const { data: { appointments = [], doctors = [] } = {}, loading = false } =
+    appointmentList;
   useEffect(() => {
     // dispatching action for getting lists of all products
     dispatch(getAllAppointments());
@@ -20,15 +22,14 @@ function App() {
       <div className="container">
         <Sidebar />
         <main>
-          {appointments &&
-            Object.keys(appointments).map((appointment: any, index: number) => (
-              <Card
-                key={index}
-                appointment={appointment}
-                appointments={appointments}
-                doctors={doctors}
-              />
-            ))}
+          {loading && (
+            <div className="loader-wrapper">
+              <Loader />
+            </div>
+          )}
+          {appointments && (
+            <Appointments appointments={appointments} doctors={doctors} />
+          )}
         </main>
       </div>
     </>
