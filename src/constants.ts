@@ -10,3 +10,4 @@ export const DELETE = "DELETE";
 export const ENDPOINT_GET_ALL_APPOINTMNETS = "/appointments";
 export const ENDPOINT_GET_ALL_DOCTORS = "/doctors";
 export const ENDPOINT_GET_ALL_PATIENTS = "/patients";
+export const ENDPOINT_DELETE_APPOINTMENT = "/appointments";

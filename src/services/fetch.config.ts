@@ -7,7 +7,7 @@ const FETCH_API_CALL = async (request: any) => {
       "Content-Type": "application/json",
     },
     method: request.method,
-    body: request.body,
+    body: request && request.body && JSON.stringify(request.body),
   };
 
   // calling API in try catch for handling exceptions
