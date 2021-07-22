@@ -7,7 +7,7 @@ import { getAllAppointments } from "./redux/actions";
 function App() {
   const dispatch = useDispatch();
   const appointmentList = useSelector((state) => state.appointmentList);
-  const { data: { appointments = [] } = {} } = appointmentList;
+  const { data: { appointments = [], doctors = [] } = {} } = appointmentList;
   useEffect(() => {
     // dispatching action for getting lists of all products
     dispatch(getAllAppointments());
@@ -21,8 +21,13 @@ function App() {
         <Sidebar />
         <main>
           {appointments &&
-            appointments.map((appointment) => (
-              <Card appointment={appointment} />
+            Object.keys(appointments).map((appointment: any, index: number) => (
+              <Card
+                key={index}
+                appointment={appointment}
+                appointments={appointments}
+                doctors={doctors}
+              />
             ))}
         </main>
       </div>
