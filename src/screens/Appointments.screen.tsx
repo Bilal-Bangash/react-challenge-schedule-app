@@ -7,30 +7,38 @@ import {
   deleteAppointment,
 } from "../redux/actions";
 
-const Appointments = (props: any) => {
-  const { appointments, doctors } = props;
-  const [doctorID, setDoctorID] = useState("");
-  const [appointmentId, setAppointmentID] = useState("");
+export interface AppointmentsProps {
+  appointments: object;
+  doctors: any;
+}
+
+const Appointments: React.FC<AppointmentsProps> = ({
+  appointments,
+  doctors,
+}) => {
+  const [doctorID, setDoctorID] = useState<number>();
+  const [appointmentId, setAppointmentID] = useState<number>();
 
   const dispatch = useDispatch();
-  const handleCancelClick = (appointmentID: any) => {
+  const handleCancelClick = (appointmentID: number) => {
     const reason = prompt("Please Enter Reason");
     if (!reason) return alert("Enter Reason First!!");
     dispatch(deleteAppointment(appointmentID, reason));
     dispatch(getAllAppointments());
   };
 
-  const handleConfirmClick = (appointmentID: any) => {
+  const handleConfirmClick = (appointmentID: number) => {
     if (!doctorID || appointmentID !== appointmentId)
       return alert("Select Doctor First");
 
     dispatch(confirmAppointment(appointmentID, doctorID));
     dispatch(getAllAppointments());
-    setDoctorID("");
+    setDoctorID(undefined);
+    setAppointmentID(undefined);
   };
   return (
     <React.Fragment>
-      {Object.keys(appointments).map((appointment: any, index: number) => (
+      {Object.keys(appointments).map((appointment: string, index: number) => (
         <Card
           key={index}
           doctors={doctors}

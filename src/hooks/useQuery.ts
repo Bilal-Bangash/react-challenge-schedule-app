@@ -2,17 +2,20 @@ import { useState, useEffect } from "react";
 import { FETCH_API_CALL } from "../services";
 
 const useQuery = (
-  request: any,
-  { onError = (res: any) => {}, onComplete = (res: any) => {} } = {}
+  request: object,
+  {
+    onError = (res: object | string) => {},
+    onComplete = (res: object | [] | string) => {},
+  } = {}
 ) => {
   //loading state for loader future work
-  const [isLoading, setLoading] = useState(true);
+  const [isLoading, setLoading] = useState<boolean>(true);
 
   //error state for showing error from API
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string>("");
 
   //data state to store response from API
-  const [data, setData] = useState(null);
+  const [data, setData] = useState<object | [] | string>();
 
   const fetch = () => {
     onRequest();
@@ -25,7 +28,7 @@ const useQuery = (
   const onRequest = async () => {
     setLoading(true);
 
-    setError(null);
+    setError("");
     // Calling API point and setting data or error on base of response
     await FETCH_API_CALL(request)
       .then((response) => {
