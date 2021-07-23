@@ -10,16 +10,23 @@ import {
   CONFIRM_APPOINTMENT_FAILURE,
 } from "../constants";
 const INITIAL_STATE = {
-  data: { appointments: [], patients: [], doctors: [] },
+  data: { appointments: {}, patients: [], doctors: [] },
 };
 
-export const appointmentListReducer = (state = INITIAL_STATE, action: any) => {
+export interface actionProps {
+  type: string;
+  payload: object;
+}
+export const appointmentListReducer = (
+  state = INITIAL_STATE,
+  action: actionProps
+) => {
   switch (action.type) {
     case GET_ALL_APPOINTMENTS_REQUEST:
       return {
         loading: true,
         data: {
-          appointments: [],
+          appointments: {},
           patients: [],
           doctors: [],
         },
@@ -41,7 +48,7 @@ export const appointmentListReducer = (state = INITIAL_STATE, action: any) => {
 
 export const deleteAppointmentReducer = (
   state = INITIAL_STATE,
-  action: any
+  action: actionProps
 ) => {
   switch (action.type) {
     case DELETE_APPOINTMENT_REQUEST:
@@ -64,7 +71,7 @@ export const deleteAppointmentReducer = (
 
 export const confirmAppointmentReducer = (
   state = INITIAL_STATE,
-  action: any
+  action: actionProps
 ) => {
   switch (action.type) {
     case CONFIRM_APPOINTMENT_REQUEST:

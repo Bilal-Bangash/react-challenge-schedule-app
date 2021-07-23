@@ -1,15 +1,15 @@
 // find and add patients & doctors in appointments array
 export const combineAppointmentDoctorPatient = (
-  appointments: any,
-  patients: any,
-  doctors: any
+  appointments: [],
+  patients: [],
+  doctors: []
 ) => {
   return appointments.map((appointment: any) => {
     const matchedPatient = patients.find(
-      (patient: any) => patient.id === appointment.patientID
+      (patient: { id: string }) => patient.id === appointment.patientID
     );
     const matchedDoctor = doctors.find(
-      (doctor: any) => doctor.id === appointment?.doctorID
+      (doctor: { id: string }) => doctor.id === appointment?.doctorID
     );
     appointment["patient"] = matchedPatient && matchedPatient;
     appointment["doctor"] = matchedDoctor && matchedDoctor;
@@ -19,17 +19,25 @@ export const combineAppointmentDoctorPatient = (
 export const makeAppointmentGroups = (updateAppointments: any) => {
   return (
     updateAppointments.length &&
-    updateAppointments.reduce((acc: any, appointment: any) => {
-      const { status } = appointment;
+    updateAppointments.reduce(
+      (
+        acc: any,
+        appointment: {
+          status: string;
+        }
+      ) => {
+        const { status } = appointment;
 
-      acc[status] = [
-        ...(acc[status] || []),
-        {
-          ...appointment,
-        },
-      ];
-      return acc;
-    }, {})
+        acc[status] = [
+          ...(acc[status] || []),
+          {
+            ...appointment,
+          },
+        ];
+        return acc;
+      },
+      {}
+    )
   );
 };
 
