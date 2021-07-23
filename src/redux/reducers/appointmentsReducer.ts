@@ -24,12 +24,8 @@ export const appointmentListReducer = (
   switch (action.type) {
     case GET_ALL_APPOINTMENTS_REQUEST:
       return {
-        loading: true,
-        data: {
-          appointments: {},
-          patients: [],
-          doctors: [],
-        },
+        loading: false,
+        data: action.payload,
       };
     case GET_ALL_APPOINTMENTS_SUCCESS:
       return {
@@ -53,11 +49,13 @@ export const deleteAppointmentReducer = (
   switch (action.type) {
     case DELETE_APPOINTMENT_REQUEST:
       return {
-        loading: true,
+        loading: false,
+        data: action.payload,
       };
     case DELETE_APPOINTMENT_SUCCESS:
       return {
         loading: false,
+        data: action.payload,
       };
     case DELETE_APPOINTMENT_FAILURE:
       return {
@@ -76,7 +74,8 @@ export const confirmAppointmentReducer = (
   switch (action.type) {
     case CONFIRM_APPOINTMENT_REQUEST:
       return {
-        loading: true,
+        loading: false,
+        data: action.payload,
       };
     case CONFIRM_APPOINTMENT_SUCCESS:
       return {

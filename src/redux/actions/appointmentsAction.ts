@@ -24,57 +24,80 @@ import {
   makeAppointmentGroups,
   sortAppointments,
 } from "../../helpers";
-export const getAllAppointments = () => async (dispatch: any) => {
-  try {
-    dispatch({ type: GET_ALL_APPOINTMENTS_REQUEST });
-    //GET all appointments
-    const { appointments } = await FETCH_API_CALL({
-      endpoint: ENDPOINT_GET_ALL_APPOINTMNETS,
-      method: GET,
-    });
-    //GET all doctors
-    const { doctors } = await FETCH_API_CALL({
-      endpoint: ENDPOINT_GET_ALL_DOCTORS,
-      method: GET,
-    });
-    //GET all patients
-    const { patients } = await FETCH_API_CALL({
-      endpoint: ENDPOINT_GET_ALL_PATIENTS,
-      method: GET,
-    });
+export const getAllAppointments =
+  () =>
+  async (
+    dispatch: any,
+    getState: () => {
+      appointmentList: {
+        data: object;
+      };
+    }
+  ) => {
+    try {
+      dispatch({
+        type: GET_ALL_APPOINTMENTS_REQUEST,
+        payload: getState().appointmentList.data,
+      });
+      //GET all appointments
+      const { appointments } = await FETCH_API_CALL({
+        endpoint: ENDPOINT_GET_ALL_APPOINTMNETS,
+        method: GET,
+      });
+      //GET all doctors
+      const { doctors } = await FETCH_API_CALL({
+        endpoint: ENDPOINT_GET_ALL_DOCTORS,
+        method: GET,
+      });
+      //GET all patients
+      const { patients } = await FETCH_API_CALL({
+        endpoint: ENDPOINT_GET_ALL_PATIENTS,
+        method: GET,
+      });
 
-    // finding and adding patients and doctors in appointments array (only those doctors and patients that ID's exists in appointments array)
-    const updateAppointments = combineAppointmentDoctorPatient(
-      appointments,
-      patients,
-      doctors
-    );
+      // finding and adding patients and doctors in appointments array (only those doctors and patients that ID's exists in appointments array)
+      const updateAppointments = combineAppointmentDoctorPatient(
+        appointments,
+        patients,
+        doctors
+      );
 
-    const appointmentGroups = makeAppointmentGroups(updateAppointments);
-    const appointmentGroupsSort = {};
+      const appointmentGroups = makeAppointmentGroups(updateAppointments);
+      const appointmentGroupsSort = {};
 
-    //sort object in descending order
-    sortAppointments(appointmentGroupsSort, appointmentGroups);
+      //sort object in descending order
+      sortAppointments(appointmentGroupsSort, appointmentGroups);
 
-    dispatch({
-      type: GET_ALL_APPOINTMENTS_SUCCESS,
-      payload: { appointments: appointmentGroupsSort, doctors, patients },
-    });
-  } catch (error) {
-    dispatch({
-      type: GET_ALL_APPOINTMENTS_FAILURE,
-      payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message,
-    });
-  }
-};
+      dispatch({
+        type: GET_ALL_APPOINTMENTS_SUCCESS,
+        payload: { appointments: appointmentGroupsSort, doctors, patients },
+      });
+    } catch (error) {
+      dispatch({
+        type: GET_ALL_APPOINTMENTS_FAILURE,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      });
+    }
+  };
 
 export const deleteAppointment =
-  (appointmentID: any, reason: any) => async (dispatch: any) => {
+  (appointmentID: number, reason: string) =>
+  async (
+    dispatch: any,
+    getState: () => {
+      appointmentList: {
+        data: object;
+      };
+    }
+  ) => {
     try {
-      dispatch({ type: DELETE_APPOINTMENT_REQUEST });
+      dispatch({
+        type: DELETE_APPOINTMENT_REQUEST,
+        payload: getState().appointmentList.data,
+      });
       //api call
       const { appointment } = await FETCH_API_CALL({
         endpoint: `${ENDPOINT_DELETE_APPOINTMENT}/${appointmentID}`,
@@ -86,7 +109,8 @@ export const deleteAppointment =
 
       dispatch({
         type: DELETE_APPOINTMENT_SUCCESS,
-        payload: appointment,
+        payload: getState().appointmentList.data,
+        updatedAppointment: appointment,
       });
     } catch (error) {
       dispatch({
@@ -100,9 +124,20 @@ export const deleteAppointment =
   };
 
 export const confirmAppointment =
-  (appointmentID: any, doctorID: any) => async (dispatch: any) => {
+  (appointmentID: number, doctorID: number) =>
+  async (
+    dispatch: any,
+    getState: () => {
+      appointmentList: {
+        data: object;
+      };
+    }
+  ) => {
     try {
-      dispatch({ type: CONFIRM_APPOINTMENT_REQUEST });
+      dispatch({
+        type: CONFIRM_APPOINTMENT_REQUEST,
+        payload: getState().appointmentList.data,
+      });
       //api call
       const { appointment } = await FETCH_API_CALL({
         endpoint: `${ENDPOINT_DELETE_APPOINTMENT}/${appointmentID}/confirm`,
@@ -114,7 +149,8 @@ export const confirmAppointment =
 
       dispatch({
         type: CONFIRM_APPOINTMENT_SUCCESS,
-        payload: appointment,
+        payload: getState().appointmentList.data,
+        updatedAppointment: appointment,
       });
     } catch (error) {
       dispatch({
